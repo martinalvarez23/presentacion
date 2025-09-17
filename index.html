@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Felli | Presentación</title>
+<style>
+  :root{
+    /* Layout */
+    --row-gap: 56px;
+    --pad-x: 200px;
+
+    /* Col 1: logo cuadrado */
+    --logo-side: clamp(220px, 24vw, 300px);
+
+    /* Col 3: avatar circular (video) */
+    --video-size: clamp(260px, 30vw, 38px);
+
+    /* ====== Video (MISMO BLOQUE QUE TU ORIGINAL) ====== */
+    --size: var(--video-size);
+    /* encuadre horizontal/vertical del video */
+    --tx: -20%;
+    --ty:  0%;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color:#0e1417; background:#fff;
+  }
+
+  /* Header Pint */
+  .topbar{position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid #eee}
+  .topbar .inner{
+    width:100%; max-width:none;
+    padding:18px var(--pad-x);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .pint-logo{height:78px; width:auto}
+  .burger{width:36px;height:26px;display:grid;gap:7px;background:transparent;border:0;cursor:pointer}
+  .burger span{height:2px;background:#111;border-radius:2px}
+
+  /* ====== Fila principal a TODO ANCHO ====== */
+  .row{
+    width:100%;
+    padding: 64px var(--pad-x);
+    display:grid;
+    grid-template-columns:
+      var(--logo-side)          /* 1: tarjeta con el logo (cuadrado) */
+      1fr                       /* 2: texto + redes de Felli */
+      var(--video-size)         /* 3: avatar circular con video */
+      auto;                     /* 4: nombre del referente */
+    align-items:center;
+    column-gap: var(--row-gap);
+  }
+
+  /* Columna 1: tarjeta con logo cuadrado */
+  .logo-card{
+    background:#fff;
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:18px;
+    box-shadow: 0 18px 40px rgba(0,0,0,.08);
+    padding: 22px;
+  }
+  .logo-square{
+    width:100%;
+    aspect-ratio:1/1;          /* CUADRADO perfecto */
+    border-radius:14px;
+    overflow:hidden;
+    background:#f3f5f6;
+    display:grid; place-items:center;
+  }
+  .logo-square img{width:100%; height:100%; object-fit:contain}
+
+  /* Columna 2: texto y redes */
+  .org h2{margin:0 0 10px; font-size:2rem; font-weight:600}
+  .kv{margin:.35rem 0}
+  .icons{display:flex; gap:14px; margin-top:12px}
+  .icon-btn{
+    width:36px; height:36px; display:grid; place-items:center; background:#fff;
+    border-radius:999px; border:1px solid rgba(0,0,0,.1); box-shadow:0 6px 14px rgba(0,0,0,.06)
+  }
+  .icon-btn svg{width:16px; height:16px}
+
+  /* Columna 3: avatar circular (VIDEO ORIGINAL) */
+  .media{
+    position:relative; width:var(--size); height:var(--size);
+    border-radius:50%; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.35);
+    cursor:pointer; isolation:isolate;
+  }
+  /* Foto fallback visible cuando NO está reproduciendo */
+  .media img{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; border:0; display:block; transition:opacity .2s ease;
+  }
+  /* Capa de video encima de la foto */
+  .video-wrap{ position:absolute; inset:0; opacity:0; transition:opacity .2s ease; }
+  .media.playing .video-wrap{ opacity:1; }
+  .video-inner{
+    position:absolute; inset:0;
+    width:177.78%; height:100%;
+    transform: translate(var(--tx), var(--ty));
+  }
+  .video-inner iframe{ width:100%; height:100%; border:0; pointer-events:none; }
+
+  /* Badge de sonido centrado abajo */
+  .sound{
+    position: absolute;
+    left: 50%; bottom: 10px;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,.6); color:#fff;
+    font-size: 12px; padding: 6px 10px; border-radius: 999px;
+    opacity: 0; transition: opacity .18s ease; pointer-events: none;
+  }
+  .media.playing .sound{ opacity: 1; pointer-events: auto; }
+
+  /* Columna 4: nombre en UNA línea + avioncito */
+  .name-line{
+    display:flex; align-items:center; gap:12px;
+    white-space: nowrap;      /* 👈 en una sola línea */
+  }
+  .name-line h1{margin:0; font-size:2rem; font-weight:600}
+  .plane{
+    width:36px; height:36px; display:grid; place-items:center; background:#fff;
+    border-radius:999px; border:1px solid rgba(0,0,0,.1); box-shadow:0 6px 14px rgba(0,0,0,.06)
+  }
+  .plane svg{width:16px; height:16px}
+
+  /* Responsive: si el ancho no alcanza, apilamos ordenado */
+  @media (max-width: 1000px){
+    .row{
+      grid-template-columns: 1fr; row-gap: 28px;
+    }
+    .name-line{white-space:normal}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="inner">
+    <img class="pint-logo" src="pint.png" alt="pint" />
+    <button class="burger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ====== Fila a TODO el ancho ====== -->
+<section class="row">
+
+  <!-- 1) Tarjeta con LOGO CUADRADO -->
+  <div class="logo-card">
+    <div class="logo-square">
+      <img src="felli.WEBP" alt="Felli Bienes Raíces" />
+    </div>
+  </div>
+
+  <!-- 2) Texto Felli + redes (AFUERA del cuadrado) -->
+  <div class="org">
+    <h2>Felli</h2>
+    <p class="kv"><strong>Dirección:</strong> Calle 14 Nº1711 e/67 y 68 - La Plata</p>
+    <p class="kv"><strong>Teléfono:</strong> 221 3555 3751</p>
+
+    <div class="icons">
+      <a class="icon-btn" href="mailto:contacto@felli.com" title="Correo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 6h16v12H4z" />
+          <path d="M22 6l-10 7L2 6" />
+        </svg>
+      </a>
+      <a class="icon-btn" href="#" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="5" />
+          <circle cx="12" cy="12" r="4" />
+          <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a class="icon-btn" href="#" title="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M.5 23l1.8-6A9.5 9.5 0 1112 21.5 9.4 9.4 0 017.9 21z"/>
+          <path d="M8.5 10.5c.2-.3.3-.6.6-.6s.7 0 1.1.8.8 1.6 1.7 2.4 1.9 1.3 2.4 1.5.7 0 .9-.3.5-.6.8-.5.9.4 1.1.6.3.6.1 1-.6 1.1-1.5 1.2-2.2-.1-3.6-1a9.6 9.6 0 01-3-3.1c-.7-1.2-.9-2.2-.8-2.8s.5-1 .9-1.2z" fill="#fff"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- 3) Avatar circular con FOTO + VIDEO (igual a tu original) -->
+  <figure class="media" id="media">
+    <img id="avatar" src="jorge.png" alt="Juan Martín Felli" />
+    <div class="video-wrap">
+      <div class="video-inner">
+        <iframe
+          id="ytFrame"
+          title="Teaser"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+      </div>
+    </div>
+    <div class="sound" id="soundBadge">🔊 Sonido</div>
+  </figure>
+
+  <!-- 4) Nombre en una MISMA LÍNEA + avioncito -->
+  <div class="name-line">
+    <h1>Juan Martín Felli</h1>
+    <a class="plane" href="#" title="Contactar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 2L11 13" />
+        <path d="M22 2l-7 20-4-9-9-4 20-7z" />
+      </svg>
+    </a>
+  </div>
+
+</section>
+
+<script>
+  /* ====== JS ORIGINAL (hover = play en silencio; click = toggle sonido) ====== */
+  (function () {
+    const media = document.getElementById('media');
+    const frame = document.getElementById('ytFrame');
+    const badge = document.getElementById('soundBadge');
+
+    const VIDEO_ID = 'Ep7RTZU0Jlo';
+    const BASE_EMBED =
+      `https://www.youtube-nocookie.com/embed/${VIDEO_ID}` +
+      `?enablejsapi=1&controls=0&rel=0&modestbranding=1&playsinline=1&mute=1` +
+      `&fs=0&iv_load_policy=3&disablekb=1&origin=${location.origin}`;
+
+    let loaded=false, apiReady=false, muted=true;
+
+    const ensureLoaded=()=>{ if(loaded) return; frame.src=BASE_EMBED; loaded=true; };
+    const post=(func,args=[])=>{
+      if(!loaded) return;
+      frame.contentWindow?.postMessage(JSON.stringify({event:'command', func, args}), '*');
+    };
+    const updateBadge=()=>{ badge.textContent = muted ? '🔇 Silencio' : '🔊 Sonido'; };
+
+    frame.addEventListener('load', ()=>{
+      apiReady=true; post('mute'); post('playVideo'); updateBadge();
+    });
+
+    const playMuted=()=>{
+      ensureLoaded();
+      media.classList.add('playing');
+      if(apiReady){ muted=true; post('mute'); post('playVideo'); updateBadge(); }
+    };
+    const pause=()=>{
+      if(apiReady) post('pauseVideo');
+      media.classList.remove('playing');
+    };
+
+    media.addEventListener('mouseenter', playMuted);
+    media.addEventListener('mouseleave', pause);
+
+    media.addEventListener('click', ()=>{
+      ensureLoaded();
+      media.classList.add('playing');
+      if(!apiReady) return;
+      post('playVideo');
+      muted = !muted;
+      if(muted) post('mute'); else post('unMute');
+      updateBadge();
+    }, { passive:true });
+
+    window.addEventListener('pagehide', pause);
+    document.addEventListener('visibilitychange', ()=>{ if(document.hidden) pause(); });
+  })();
+</script>
+</body>
+</html>
