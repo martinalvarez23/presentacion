@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Felli | Presentación</title>
+<title>Axion | Presentación</title>
 <style>
   :root{
     /* Layout */
@@ -19,7 +19,8 @@
     /* ====== Video (MISMO BLOQUE QUE TU ORIGINAL) ====== */
     --size: var(--video-size);
     /* encuadre horizontal/vertical del video */
-    --tx: -20%;
+    --zoom: 1.4;  /* zoom del video */
+    --tx: -30%;
     --ty:  0%;
   }
 
@@ -99,7 +100,8 @@
   .media.playing .video-wrap{ opacity:1; }
   .video-inner{
     position:absolute; inset:0;
-    width:177.78%; height:100%;
+    width: calc(177.78% * var(--zoom));
+    height: calc(100% * var(--zoom));
     transform: translate(var(--tx), var(--ty));
   }
   .video-inner iframe{ width:100%; height:100%; border:0; pointer-events:none; }
@@ -153,18 +155,18 @@
   <!-- 1) Tarjeta con LOGO CUADRADO -->
   <div class="logo-card">
     <div class="logo-square">
-      <img src="felli.webp" alt="Felli Bienes Raíces" />
+      <img src="axion.webp" alt="Axion" />
     </div>
   </div>
 
   <!-- 2) Texto Felli + redes (AFUERA del cuadrado) -->
   <div class="org">
-    <h2>Felli</h2>
-    <p class="kv"><strong>Dirección:</strong> Calle 14 Nº1711 e/67 y 68 - La Plata</p>
-    <p class="kv"><strong>Teléfono:</strong> 221 3555 3751</p>
+    <h2>Axion</h2>
+    <p class="kv"><strong>Dirección:</strong> Calle 48 Nro 884-Of. 3-La Plata</p>
+    <p class="kv"><strong>Teléfono:</strong> 221 483-3356</p>
 
     <div class="icons">
-      <a class="icon-btn" href="mailto:contacto@felli.com" title="Correo">
+      <a class="icon-btn" href="mailto:contacto@axion.com" title="Correo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M4 6h16v12H4z" />
           <path d="M22 6l-10 7L2 6" />
@@ -205,7 +207,7 @@
 
   <!-- 4) Nombre en una MISMA LÍNEA + avioncito -->
   <div class="name-line">
-    <h1>Juan Martín Felli</h1>
+    <h1>Jorge Amoreo Casotti</h1>
     <a class="plane" href="#" title="Contactar">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M22 2L11 13" />
