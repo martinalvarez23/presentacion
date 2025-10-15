@@ -243,12 +243,13 @@
     const frame = document.getElementById('ytFrame');
     const badge = document.getElementById('soundBadge');
 
-    const VIDEO_ID = 'dyDKrES5WuQ';
-const BASE_EMBED =
-  `https://www.youtube-nocookie.com/embed/${VIDEO_ID}` 
-  `?enablejsapi=1&controls=0&rel=0&modestbranding=1&playsinline=1&mute=1` +
-  `&fs=0&iv_load_policy=3&disablekb=1&origin=${location.origin}` +
-  `&loop=1&playlist=${VIDEO_ID}`;  // 👈 agregado
+   const VIDEO_ID = 'Qz4UW06I0k8';
+
+  const BASE_EMBED =
+    `https://www.youtube-nocookie.com/embed/${VIDEO_ID}` +
+    `?enablejsapi=1&controls=0&rel=0&modestbranding=1&playsinline=1&mute=1` +
+    `&fs=0&iv_load_policy=3&disablekb=1&origin=${encodeURIComponent(location.origin)}` +
+    `&loop=1&playlist=${VIDEO_ID}`;
 
 
     let loaded=false, apiReady=false, muted=true;
