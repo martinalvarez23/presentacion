@@ -1,542 +1,371 @@
 <!doctype html>
 <html lang="es">
-
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title> Grupo Horizonte| Presentación</title>
-  <style>
-    :root {
-      /* Layout */
-      --row-gap: clamp(16px, 3vw, 40px);
-      --pad-x: clamp(15px, 4vw, 100px);
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Barón Inmobiliaria| Presentación</title>
+<style>
+  :root{
+    /* Layout */
+    --row-gap: 56px;
+    --pad-x: 200px;
 
-      /* Col 1: logo cuadrado */
-      --logo-side: clamp(120px, 14vw, 220px);
+    /* Col 1: logo cuadrado */
+    --logo-side: clamp(220px, 24vw, 300px);
 
-      /* Col 3: avatar circular (video) */
-      --video-size: clamp(140px, 18vw, 260px);
+    /* Col 3: avatar circular (video) */
+    --video-size: clamp(260px, 30vw, 38px);
 
-      /* ====== Video (MISMO BLOQUE QUE TU ORIGINAL) ====== */
-      --size: var(--video-size);
-      /* encuadre horizontal/vertical del video */
-      --zoom: 1.4;
-      /* zoom del video */
-      --tx: -30%;
-      --ty: 0%;
+    /* ====== Video (MISMO BLOQUE QUE TU ORIGINAL) ====== */
+    --size: var(--video-size);
+    /* encuadre horizontal/vertical del video */
+    --zoom: 1.4;  /* zoom del video */
+    --tx: -30%;
+    --ty:  0%;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color:#0e1417; background:#fff;
+  }
+
+  /* Header Pint */
+  .topbar{position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid #eee}
+  .topbar .inner{
+    width:100%; max-width:none;
+    padding:18px var(--pad-x);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .pint-logo{height:78px; width:auto}
+  .burger{width:36px;height:26px;display:grid;gap:7px;background:transparent;border:0;cursor:pointer}
+  .burger span{height:2px;background:#111;border-radius:2px}
+
+  /* ====== Fila principal a TODO ANCHO ====== */
+  .row{
+    width:100%;
+    padding: 64px var(--pad-x);
+    display:grid;
+    grid-template-columns:
+      var(--logo-side)          /* 1: tarjeta con el logo (cuadrado) */
+      1fr                       /* 2: texto + redes de Felli */
+      var(--video-size)         /* 3: avatar circular con video */
+      auto;                     /* 4: nombre del referente */
+    align-items:center;
+    column-gap: var(--row-gap);
+  }
+
+  /* Columna 1: tarjeta con logo cuadrado */
+  .logo-card{
+    background:#fff;
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:18px;
+    box-shadow: 0 18px 40px rgba(0,0,0,.08);
+    padding: 22px;
+  }
+  .logo-square{
+    width:100%;
+    aspect-ratio:1/1;          /* CUADRADO perfecto */
+    border-radius:14px;
+    overflow:hidden;
+    background:#f3f5f6;
+    display:grid; place-items:center;
+  }
+  .logo-square img{width:100%; height:100%; object-fit:contain}
+
+  /* Columna 2: texto y redes */
+  .org h2{margin:0 0 10px; font-size:2rem; font-weight:600}
+  .kv{margin:.35rem 0}
+
+  /* ===== Redes mejoradas ===== */
+  .icons{ display:flex; gap:14px; margin-top:12px }
+
+  .icon-btn{
+    --fg:#111;            /* color del ícono */
+    --ring:rgba(0,0,0,.15);
+    --bg:#fff;
+
+    position:relative;
+    width:44px; height:44px;
+    display:grid; place-items:center;
+    border-radius:999px;
+    background:var(--bg);
+    color:var(--fg);
+    border:1px solid rgba(0,0,0,.08);
+    box-shadow:0 8px 18px rgba(0,0,0,.06);
+    transition:transform .15s ease, box-shadow .2s ease, background-color .2s ease, color .2s ease;
+  }
+  .icon-btn svg{ width:20px; height:20px; }
+
+  .icon-btn:hover{ transform:translateY(-1px); box-shadow:0 10px 22px rgba(0,0,0,.10); }
+  .icon-btn:active{ transform:translateY(0); box-shadow:0 6px 14px rgba(0,0,0,.08); }
+  .icon-btn:focus-visible{
+    outline:none;
+    box-shadow:0 0 0 3px var(--ring), 0 12px 26px rgba(0,0,0,.10);
+  }
+
+  /* Tooltips minimalistas (sin JS) */
+  .icon-btn[data-tip]::after{
+    content:attr(data-tip);
+    position:absolute; bottom:calc(100% + 8px); left:50%; transform:translate(-50%,6px);
+    background:#111; color:#fff; font-size:12px; padding:5px 8px; border-radius:8px;
+    opacity:0; pointer-events:none; white-space:nowrap; transition:opacity .15s ease, transform .15s ease;
+  }
+  .icon-btn:hover::after, .icon-btn:focus-visible::after{ opacity:1; transform:translate(-50%,0); }
+
+  /* Colores por marca */
+  .icon-btn[data-net="mail"]{ --fg:#0b5cff; --ring:rgba(11,92,255,.25); }
+  .icon-btn[data-net="ig"]  { --fg:#d62976; --ring:rgba(214,41,118,.25); }
+  .icon-btn[data-net="wa"]  { --fg:#25D366; --ring:rgba(37,211,102,.25); }
+
+  /* Leve fill al hover */
+  .icon-btn:hover{
+    background:linear-gradient(#fff,#fff) padding-box,
+               radial-gradient(circle at 50% 50%, var(--ring), transparent 60%) border-box;
+  }
+
+  /* Respeta usuarios que prefieren menos movimiento */
+  @media (prefers-reduced-motion: reduce){
+    .icon-btn, .icon-btn:hover, .icon-btn:active{ transition:none; transform:none; }
+  }
+
+  /* Columna 3: avatar circular (VIDEO ORIGINAL) */
+  .media{
+    position:relative; width:var(--size); height:var(--size);
+    border-radius:50%; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.35);
+    cursor:pointer; isolation:isolate;
+  }
+  /* Foto fallback visible cuando NO está reproduciendo */
+  .media img{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; border:0; display:block; transition:opacity .2s ease;
+  }
+  /* Capa de video encima de la foto */
+  .video-wrap{ position:absolute; inset:0; opacity:0; transition:opacity .2s ease; }
+  .media.playing .video-wrap{ opacity:1; }
+  .video-inner{
+    position:absolute; inset:0;
+    width: calc(177.78% * var(--zoom));
+    height: calc(100% * var(--zoom));
+    transform: translate(var(--tx), var(--ty));
+  }
+  .video-inner iframe{ width:100%; height:100%; border:0; pointer-events:none; }
+
+  /* Badge de sonido centrado abajo */
+  .sound{
+    position: absolute;
+    left: 50%; bottom: 10px;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,.6); color:#fff;
+    font-size: 12px; padding: 6px 10px; border-radius: 999px;
+    opacity: 0; transition: opacity .18s ease; pointer-events: none;
+  }
+  .media.playing .sound{ opacity: 1; pointer-events: auto; }
+
+  /* Columna 4: nombre en UNA línea + avioncito */
+  .name-line{
+    display:flex; align-items:center; gap:12px;
+    white-space: nowrap;      /* 👈 en una sola línea */
+  }
+  .name-line h1{margin:0; font-size:2rem; font-weight:600}
+  .plane{
+    width:36px; height:36px; display:grid; place-items:center; background:#fff;
+    border-radius:999px; border:1px solid rgba(0,0,0,.1); box-shadow:0 6px 14px rgba(0,0,0,.06)
+  }
+  .plane svg{width:16px; height:16px}
+
+  /* Responsive: si el ancho no alcanza, apilamos ordenado */
+  @media (max-width: 1px){
+    .row{
+      grid-template-columns: 1fr; row-gap: 28px;
     }
-
-    * {
-      box-sizing: border-box
-    }
-
-    html,
-    body {
-      margin: 0
-    }
-
-    body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: #0e1417;
-      background: #fff;
-      overflow-x: hidden;
-    }
-
-    /* Header Pint */
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid #eee
-    }
-
-    .topbar .inner {
-      width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 12px var(--pad-x);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .pint-logo {
-      height: clamp(35px, 5vw, 55px);
-      width: auto
-    }
-
-    .burger {
-      width: 28px;
-      height: 20px;
-      display: grid;
-      gap: 5px;
-      background: transparent;
-      border: 0;
-      cursor: pointer
-    }
-
-    .burger span {
-      height: 2px;
-      background: #111;
-      border-radius: 2px
-    }
-
-    /* ====== Fila principal a TODO ANCHO ====== */
-    .row {
-      width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: clamp(30px, 6vw, 60px) var(--pad-x);
-      display: grid;
-      grid-template-columns: var(--logo-side) 1fr var(--video-size) 1.2fr;
-      align-items: flex-start;
-      column-gap: var(--row-gap);
-      row-gap: 30px;
-    }
-
-    .org {
-      min-width: 0;
-      padding-top: 20px;
-      /* Alinea el texto con el tercio superior de las imágenes */
-    }
-
-    /* Columna 1: tarjeta con logo cuadrado */
-    .logo-card {
-      background: #fff;
-      border: 1px solid rgba(0, 0, 0, .06);
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, .05);
-      padding: 15px;
-      width: 100%;
-    }
-
-    .logo-square {
-      width: 100%;
-      aspect-ratio: 1/1;
-      border-radius: 10px;
-      overflow: hidden;
-      background: #fafafa;
-      display: grid;
-      place-items: center;
-    }
-
-    .logo-square img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      padding: 5%;
-    }
-
-    /* Columna 2: texto y redes */
-    .org h2 {
-      margin: 0 0 10px;
-      font-size: clamp(1.15rem, 2.3vw, 1.9rem);
-      font-weight: 700;
-      line-height: 1.3;
-    }
-
-    .kv {
-      margin: .3rem 0;
-      font-size: clamp(0.85rem, 1.3vw, 1rem);
-      color: #444;
-      line-height: 1.3;
-    }
-
-    .kv strong {
-      color: #111;
-    }
-
-    /* ===== Redes mejoradas ===== */
-    .icons {
-      display: flex;
-      gap: 12px;
-      margin-top: 16px
-    }
-
-    .icon-btn {
-      --fg: #111;
-      --ring: rgba(0, 0, 0, .12);
-      --bg: #fff;
-
-      position: relative;
-      width: 40px;
-      height: 40px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: var(--bg);
-      color: var(--fg);
-      border: 1px solid rgba(0, 0, 0, .08);
-      box-shadow: 0 6px 14px rgba(0, 0, 0, .05);
-      transition: all .2s ease;
-    }
-
-    .icon-btn svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    .icon-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, .08);
-      border-color: var(--fg);
-    }
-
-    .icon-btn:active {
-      transform: translateY(-1px);
-    }
-
-    /* Colores por marca */
-    .icon-btn[data-net="mail"] {
-      --fg: #0b5cff;
-    }
-
-    .icon-btn[data-net="ig"] {
-      --fg: #d62976;
-    }
-
-    .icon-btn[data-net="wa"] {
-      --fg: #25D366;
-    }
-
-    /* Botón Maqueta 3D */
-    .btn-maqueta {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 24px;
-      padding: 12px 24px;
-      background: linear-gradient(135deg, #f26522 0%, #ff8c52 100%);
-      color: #fff;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 0.95rem;
-      border-radius: 12px;
-      box-shadow: 0 10px 20px rgba(242, 101, 34, 0.2);
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .btn-maqueta:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 30px rgba(242, 101, 34, 0.3);
-      filter: brightness(1.1);
-    }
-
-    .btn-maqueta svg {
-      width: 20px;
-      height: 20px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-    }
-
-    /* Columna 3: avatar circular (VIDEO ORIGINAL) */
-    .media {
-      position: relative;
-      width: var(--size);
-      height: var(--size);
-      border-radius: 50%;
-      overflow: hidden;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-      cursor: pointer;
-      isolation: isolate;
-      margin: 0 auto;
-    }
-
-    /* Foto fallback visible cuando NO está reproduciendo */
-    .media img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border: 0;
-      display: block;
-      transition: opacity .3s ease;
-    }
-
-    /* Capa de video encima de la foto */
-    .video-wrap {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity .3s ease;
-    }
-
-    .media.playing .video-wrap {
-      opacity: 1;
-    }
-
-    .video-inner {
-      position: absolute;
-      inset: 0;
-      width: calc(177.78% * var(--zoom));
-      height: calc(100% * var(--zoom));
-      transform: translate(var(--tx), var(--ty));
-    }
-
-    .video-inner iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      pointer-events: none;
-    }
-
-    /* Badge de sonido centrado abajo */
-    .sound {
-      position: absolute;
-      left: 50%;
-      bottom: 15px;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.7);
-      color: #fff;
-      font-size: 11px;
-      padding: 5px 12px;
-      border-radius: 999px;
-      opacity: 0;
-      transition: opacity .2s ease;
-      pointer-events: none;
-      text-transform: uppercase;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-
-    .media.playing .sound {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 1100px) {
-      .row {
-        grid-template-columns: 1fr 1fr;
-        row-gap: 60px;
-      }
-
-      .org {
-        text-align: center;
-      }
-
-      .icons {
-        justify-content: center;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .row {
-        grid-template-columns: 1fr;
-        padding: 40px 20px;
-        row-gap: 40px;
-      }
-
-      .logo-card {
-        max-width: 280px;
-        margin: 0 auto;
-      }
-
-      .topbar .inner {
-        padding: 12px 20px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-
-      .icon-btn,
-      .icon-btn:hover,
-      .icon-btn:active {
-        transition: none;
-        transform: none;
-      }
-    }
-  </style>
+    .name-line{white-space:normal}
+  }
+</style>
 </head>
-
 <body>
 
-  <header class="topbar">
-    <div class="inner">
-      <img class="pint-logo" src="pint.png" alt="Pint Argentina" />
-      <button class="burger" aria-label="Menú">
-        <span></span><span></span><span></span>
-      </button>
+<header class="topbar">
+  <div class="inner">
+    <img class="pint-logo" src="pint.png" alt="Pint Argentina" />
+    <button class="burger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ====== Fila a TODO el ancho ====== -->
+<section class="row">
+
+  <!-- 1) Tarjeta con LOGO CUADRADO -->
+  <div class="logo-card">
+    <div class="logo-square">
+      <img src="baron.png" alt="Barón Inmobiliaria" />
     </div>
-  </header>
+  </div>
 
-  <!-- ====== Fila a TODO el ancho ====== -->
-  <section class="row">
+  <!-- 2) Texto Felli + redes (AFUERA del cuadrado) -->
+  <div class="org">
+    <h2>Barón Inmobiliaria</h2>
+    <p class="kv"><strong>Dirección:</strong> Italia 325 Lomas de Zamora, Buenos Aires</p>
+    <p class="kv"><strong>Teléfono:</strong> 11 2152-3235 </p>
 
-    <!-- 1) Tarjeta con LOGO CUADRADO -->
-    <div class="logo-card">
-      <div class="logo-square">
-        <img src="horizonte.png" alt="Grupo Horizonte" />
-      </div>
-    </div>
-
-    <!-- 2) Texto Felli + redes (AFUERA del cuadrado) -->
-    <div class="org">
-      <h2>Grupo Horizonte</h2>
-      <p class="kv"><strong>Dirección</strong><br>Carlos Pellegrini 2175, Neuquén Capital</p>
-      <p class="kv"><strong>Teléfono</strong><br>299-6047935</p>
-
-      <!-- Redes mejoradas -->
-      <div class="icons">
-        <a class="icon-btn" data-net="mail" data-tip="Email" aria-label="Enviar email"
-          href="mailto:ventas@grupohorizonte.com.ar">
-          <!-- Mail -->
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="3" y="5" width="18" height="14" rx="2" ry="2" fill="none" stroke="currentColor"
-              stroke-width="1.8" />
-            <path d="M3 7l9 6 9-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-          </svg>
-        </a>
-
-        <a class="icon-btn" data-net="ig" data-tip="Instagram" aria-label="Abrir Instagram" href="#">
-          <!-- Instagram -->
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18" rx="5" ry="5" fill="none" stroke="currentColor"
-              stroke-width="1.8" />
-            <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8" />
-            <circle cx="17.3" cy="6.7" r="1.3" fill="currentColor" />
-          </svg>
-        </a>
-
-        <a class="icon-btn" data-net="wa" data-tip="WhatsApp" aria-label="Abrir WhatsApp" href="#">
-          <!-- WhatsApp -->
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M20 11.5A8.5 8.5 0 0 1 7.7 19L4 20l1-3.8A8.5 8.5 0 1 1 20 11.5Z" fill="none" stroke="currentColor"
-              stroke-width="1.8" stroke-linejoin="round" />
-            <path
-              d="M8.8 10.2c.3-1 .9-.9 1.3-.8.3.1.6.4.7.8.2.5.1.7-.1 1 .4.7 1.4 1.7 2.2 2.1.4.2.6.2 1 0 .3-.2.5-.3 1 0 .3.2.8.6.9.9.1.3 0 .6-.2.9-.6.8-1.6 1-2.7.7-1.8-.4-3.8-2.1-4.8-3.9-.4-.8-.6-1.7-.3-2.4Z"
-              fill="currentColor" />
-          </svg>
-        </a>
-      </div>
-      <a href="https://pint.com.ar/maqueta/camion-grupo-horizonte" target="_blank" class="btn-maqueta">
-        <svg viewBox="0 0 24 24">
-          <path
-            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
-          </path>
-          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-          <line x1="12" y1="22.08" x2="12" y2="12"></line>
+    <!-- Redes mejoradas -->
+    <div class="icons">
+      <a class="icon-btn" data-net="mail" data-tip="Email"
+         aria-label="Enviar email"
+         href="mailto:contacto@baroninmobiliaria.com">
+        <!-- Mail -->
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="14" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M3 7l9 6 9-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
-        Gemelo Digital
+      </a>
+
+      <a class="icon-btn" data-net="ig" data-tip="Instagram"
+         aria-label="Abrir Instagram"
+         href="#">
+        <!-- Instagram -->
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="5" ry="5"
+                fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/>
+        </svg>
+      </a>
+
+      <a class="icon-btn" data-net="wa" data-tip="WhatsApp"
+         aria-label="Abrir WhatsApp"
+         href="#">
+        <!-- WhatsApp -->
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 11.5A8.5 8.5 0 0 1 7.7 19L4 20l1-3.8A8.5 8.5 0 1 1 20 11.5Z"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M8.8 10.2c.3-1 .9-.9 1.3-.8.3.1.6.4.7.8.2.5.1.7-.1 1 .4.7 1.4 1.7 2.2 2.1.4.2.6.2 1 0 .3-.2.5-.3 1 0 .3.2.8.6.9.9.1.3 0 .6-.2.9-.6.8-1.6 1-2.7.7-1.8-.4-3.8-2.1-4.8-3.9-.4-.8-.6-1.7-.3-2.4Z"
+                fill="currentColor"/>
+        </svg>
       </a>
     </div>
+  </div>
 
-    <!-- 3) Avatar circular con FOTO + VIDEO (igual a tu original) -->
-    <figure class="media" id="media">
-      <img id="avatar" src="jorge.png" alt="Jorge Amoreo" />
-      <div class="video-wrap">
-        <div class="video-inner">
-          <iframe id="ytFrame" title="Teaser" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen
-            referrerpolicy="strict-origin-when-cross-origin">
-          </iframe>
-        </div>
-      </div>
-      <div class="sound" id="soundBadge">🔊 Sonido</div>
-    </figure>
-
-    <!-- 4) Nombre en una MISMA LÍNEA + avioncito -->
-    <div class="org">
-      <h2>Jorge Amoreo Casotti</h2>
-      <p class="kv"><strong>Dirección</strong><br>Calle 2 Nro 1337 - La Plata</p>
-      <p class="kv"><strong>Teléfono</strong><br>221 592-6333</p>
-
-      <!-- Redes mejoradas -->
-      <div class="icons">
-        <a class="icon-btn" data-net="mail" data-tip="Email" aria-label="Enviar email" href="mailto:contacto@axion.com">
-          <!-- Mail -->
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="3" y="5" width="18" height="14" rx="2" ry="2" fill="none" stroke="currentColor"
-              stroke-width="1.8" />
-            <path d="M3 7l9 6 9-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-          </svg>
-        </a>
-
-        <a class="icon-btn" data-net="ig" data-tip="Instagram" aria-label="Abrir Instagram" href="#">
-          <!-- Instagram -->
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18" rx="5" ry="5" fill="none" stroke="currentColor"
-              stroke-width="1.8" />
-            <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8" />
-            <circle cx="17.3" cy="6.7" r="1.3" fill="currentColor" />
-          </svg>
-        </a>
-
-        <a class="icon-btn" data-net="wa" data-tip="WhatsApp" aria-label="Abrir WhatsApp" href="#">
-          <!-- WhatsApp -->
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M20 11.5A8.5 8.5 0 0 1 7.7 19L4 20l1-3.8A8.5 8.5 0 1 1 20 11.5Z" fill="none" stroke="currentColor"
-              stroke-width="1.8" stroke-linejoin="round" />
-            <path
-              d="M8.8 10.2c.3-1 .9-.9 1.3-.8.3.1.6.4.7.8.2.5.1.7-.1 1 .4.7 1.4 1.7 2.2 2.1.4.2.6.2 1 0 .3-.2.5-.3 1 0 .3.2.8.6.9.9.1.3 0 .6-.2.9-.6.8-1.6 1-2.7.7-1.8-.4-3.8-2.1-4.8-3.9-.4-.8-.6-1.7-.3-2.4Z"
-              fill="currentColor" />
-          </svg>
-        </a>
+  <!-- 3) Avatar circular con FOTO + VIDEO (igual a tu original) -->
+  <figure class="media" id="media">
+    <img id="avatar" src="jorge.png" alt="Jorge Amoreo" />
+    <div class="video-wrap">
+      <div class="video-inner">
+        <iframe
+          id="ytFrame"
+          title="Teaser"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
       </div>
     </div>
+    <div class="sound" id="soundBadge">🔊 Sonido</div>
+  </figure>
 
-  </section>
+  <!-- 4) Nombre en una MISMA LÍNEA + avioncito -->
+  <div class="org">
+    <h2>Jorge Amoreo Casotti</h2>
+    <p class="kv"><strong>Dirección:</strong> Calle 2 Nro 1337 -La Plata</p>
+    <p class="kv"><strong>Teléfono:</strong> 221 592-6333</p>
 
-  <script>
-    /* ====== JS ORIGINAL (hover = play en silencio; click = toggle sonido) ====== */
-    (function () {
-      const media = document.getElementById('media');
-      const frame = document.getElementById('ytFrame');
-      const badge = document.getElementById('soundBadge');
+    <!-- Redes mejoradas -->
+    <div class="icons">
+      <a class="icon-btn" data-net="mail" data-tip="Email"
+         aria-label="Enviar email"
+         href="mailto:contacto@axion.com">
+        <!-- Mail -->
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="14" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M3 7l9 6 9-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </a>
 
-      const VIDEO_ID = 'jy74FTMGp50';
+      <a class="icon-btn" data-net="ig" data-tip="Instagram"
+         aria-label="Abrir Instagram"
+         href="#">
+        <!-- Instagram -->
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="5" ry="5"
+                fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/>
+        </svg>
+      </a>
 
-      const BASE_EMBED =
-        `https://www.youtube-nocookie.com/embed/${VIDEO_ID}` +
-        `?enablejsapi=1&controls=0&rel=0&modestbranding=1&playsinline=1&mute=1` +
-        `&fs=0&iv_load_policy=3&disablekb=1&origin=${encodeURIComponent(location.origin)}` +
-        `&loop=1&playlist=${VIDEO_ID}`;
+      <a class="icon-btn" data-net="wa" data-tip="WhatsApp"
+         aria-label="Abrir WhatsApp"
+         href="#">
+        <!-- WhatsApp -->
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 11.5A8.5 8.5 0 0 1 7.7 19L4 20l1-3.8A8.5 8.5 0 1 1 20 11.5Z"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M8.8 10.2c.3-1 .9-.9 1.3-.8.3.1.6.4.7.8.2.5.1.7-.1 1 .4.7 1.4 1.7 2.2 2.1.4.2.6.2 1 0 .3-.2.5-.3 1 0 .3.2.8.6.9.9.1.3 0 .6-.2.9-.6.8-1.6 1-2.7.7-1.8-.4-3.8-2.1-4.8-3.9-.4-.8-.6-1.7-.3-2.4Z"
+                fill="currentColor"/>
+        </svg>
+      </a>
+    </div>
+  </div>
 
-      let loaded = false, apiReady = false, muted = true;
+</section>
 
-      const ensureLoaded = () => { if (loaded) return; frame.src = BASE_EMBED; loaded = true; };
-      const post = (func, args = []) => {
-        if (!loaded) return;
-        frame.contentWindow?.postMessage(JSON.stringify({ event: 'command', func, args }), '*');
-      };
-      const updateBadge = () => { badge.textContent = muted ? '🔇 Silencio' : '🔊 Sonido'; };
+<script>
+  /* ====== JS ORIGINAL (hover = play en silencio; click = toggle sonido) ====== */
+  (function () {
+    const media = document.getElementById('media');
+    const frame = document.getElementById('ytFrame');
+    const badge = document.getElementById('soundBadge');
 
-      frame.addEventListener('load', () => {
-        apiReady = true; post('mute'); post('playVideo'); updateBadge();
-      });
+    const VIDEO_ID = 'jy74FTMGp50';
 
-      const playMuted = () => {
-        ensureLoaded();
-        media.classList.add('playing');
-        if (apiReady) { muted = true; post('mute'); post('playVideo'); updateBadge(); }
-      };
-      const pause = () => {
-        if (apiReady) post('pauseVideo');
-        media.classList.remove('playing');
-      };
+    const BASE_EMBED =
+      `https://www.youtube-nocookie.com/embed/${VIDEO_ID}` +
+      `?enablejsapi=1&controls=0&rel=0&modestbranding=1&playsinline=1&mute=1` +
+      `&fs=0&iv_load_policy=3&disablekb=1&origin=${encodeURIComponent(location.origin)}` +
+      `&loop=1&playlist=${VIDEO_ID}`;
 
-      media.addEventListener('mouseenter', playMuted);
-      media.addEventListener('mouseleave', pause);
+    let loaded=false, apiReady=false, muted=true;
 
-      media.addEventListener('click', () => {
-        ensureLoaded();
-        media.classList.add('playing');
-        if (!apiReady) return;
-        post('playVideo');
-        muted = !muted;
-        if (muted) post('mute'); else post('unMute');
-        updateBadge();
-      }, { passive: true });
+    const ensureLoaded=()=>{ if(loaded) return; frame.src=BASE_EMBED; loaded=true; };
+    const post=(func,args=[])=>{
+      if(!loaded) return;
+      frame.contentWindow?.postMessage(JSON.stringify({event:'command', func, args}), '*');
+    };
+    const updateBadge=()=>{ badge.textContent = muted ? '🔇 Silencio' : '🔊 Sonido'; };
 
-      window.addEventListener('pagehide', pause);
-      document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
-    })();
-  </script>
+    frame.addEventListener('load', ()=>{
+      apiReady=true; post('mute'); post('playVideo'); updateBadge();
+    });
+
+    const playMuted=()=>{
+      ensureLoaded();
+      media.classList.add('playing');
+      if(apiReady){ muted=true; post('mute'); post('playVideo'); updateBadge(); }
+    };
+    const pause=()=>{
+      if(apiReady) post('pauseVideo');
+      media.classList.remove('playing');
+    };
+
+    media.addEventListener('mouseenter', playMuted);
+    media.addEventListener('mouseleave', pause);
+
+    media.addEventListener('click', ()=>{
+      ensureLoaded();
+      media.classList.add('playing');
+      if(!apiReady) return;
+      post('playVideo');
+      muted = !muted;
+      if(muted) post('mute'); else post('unMute');
+      updateBadge();
+    }, { passive:true });
+
+    window.addEventListener('pagehide', pause);
+    document.addEventListener('visibilitychange', ()=>{ if(document.hidden) pause(); });
+  })();
+</script>
 </body>
-
 </html>
